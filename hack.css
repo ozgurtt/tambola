@@ -1,0 +1,22 @@
+.userBox{
+	border: 1px solid black;
+	width: 500px;
+	height: 300px;
+	margin-top: 10%;
+	margin-left: 25%;
+}
+#username{
+	margin-top: 120px;
+	margin-left: 100px;
+	height: 21px;
+	border: 1px solid black;
+	font-size: 14px;
+	font-weight: bold;
+}
+#username:focus{
+	box-shadow: 0 0 10px red;
+}
+#enter{
+	font-weight: bold;
+	height: 27px;
+}
