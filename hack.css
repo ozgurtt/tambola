@@ -45,5 +45,11 @@ li{
 	background-color: grey;
 	margin: 0;
 	display: inline-block;
-	opacity: 0.2;
+	opacity: 1;
+}
+span{
+	position: absolute;
+	margin-top: 10px;
+	margin-left: 40px;
+	font-size: 25px;
 }

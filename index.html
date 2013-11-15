@@ -1,33 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="hack.css">
+    <title></title>
+     <link rel="stylesheet" type="text/css" href="hack.css"> 
+    <!--<script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="index.js"></script>-->
+
+    <style type="text/css">
+
+        #userBox{
+            border: 1px solid black;
+            width: 500px;
+            height: 300px;
+            margin-top: 10%;
+            margin-left: 25%;
+            position: absolute;
+        }
+        #username{
+            margin-top: 120px;
+            margin-left: 100px;
+            height: 21px;
+            border: 1px solid black;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        #username:focus{
+            box-shadow: 0 0 10px red;
+        }
+        #enter{
+            font-weight: bold;
+            height: 27px;
+        }
+        .hide{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+        #gameCard{
+            /*border: 1px solid black;*/
+            width: 500px;
+            height: 150px;
+            margin-top: 10%;
+            margin-left: 25%;
+            position: absolute;
+        }
+        li{
+            list-style-type: none;
+        }
+        #gameCard li{
+            /*border: 1px solid black;*/
+            width: 90px;
+            height: 50px;
+            background-color: grey;
+            margin: 0;
+            display: inline-block;
+            opacity: 1;
+        }
+        span{
+            position: absolute;
+            margin-top: 10px;
+            margin-left: 40px;
+            font-size: 25px;
+        }
+
+    </style>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            var socket = io.connect('http://localhost:3000');
+
+            var enter = document.getElementById('enter');
+
+            socket.on('welcome', function (data) {
+	            console.log(data);
+	            document.getElementById('welcome').innerHTML = "Welcome to the game <strong>" + data.name + "</strong>";
+			});
+            socket.on('users', function (data) {
+				document.getElementById('allUsers').innerHTML = "<strong>Online users:</strong><br />" + data.users;
+			});
+            enter.onclick = function(){
+            	document.getElementById('userBox').className = "hide";
+            	document.getElementById('gameCard').className = "show";
+
+            	var numberElements = document.getElementById('gameCard').children;
+
+				var tempArray = [], i=0;
+
+				for(var i=0; i < (numberElements.length)/2; i++){
+
+					var randomN = Math.floor((Math.random()*15)+1);
+
+					if(tempArray.indexOf(randomN) === -1){
+						var element = numberElements[randomN];
+						var elem = document.createElement("span");
+						elem.id = randomN;
+						elem.innerHTML = randomN;
+						if(element){
+							element.appendChild(elem);
+						}
+						tempArray.push(randomN);
+					}
+				}
+
+				tempArray = [];
+
+            	var userName = document.getElementById('username').value;
+
+            	socket.emit('click', userName);
+            }}
+    </script>
+
 </head>
 <body>
-	<ul id="userBox">
-		<input type="text" id="username" placeholder="Enter your name : "/>
-		<input type="button" id="enter" value="Enter">
-	</ul>
-	<ul id="gameCard" class="hide">
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-	</ul>
-
+<ul id="userBox">
+    <input type="text" id="username" placeholder="Enter your name : "/>
+    <input type="button" id="enter" value="Enter" />
+</ul>
+<ul id="gameCard" class="hide">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<ul id="welcome"></ul>
+<ul id="allUsers"></ul>
 </body>
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="index.js"></script>
 </html>
