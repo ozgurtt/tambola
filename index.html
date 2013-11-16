@@ -70,9 +70,11 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         window.onload = function() {
-            var socket = io.connect('http://localhost:3000');
+            var socket = io.connect('http://192.168.0.105:3000');
 
             var enter = document.getElementById('enter');
+
+            var numbersCalled = [];
 
             socket.on('welcome', function (data) {
 	            console.log(data);
@@ -80,6 +82,20 @@
 			});
             socket.on('users', function (data) {
 				document.getElementById('allUsers').innerHTML = "<strong>Online users:</strong><br />" + data.users;
+				if(data.onlineUsersNum > 1){
+					document.getElementById('start').disabled =  false;
+					document.getElementById('msg').innerHTML =  "<strong>You can now play the game.</strong><br />";
+				}
+				else{
+					document.getElementById('start').disabled = true;
+				}
+			});
+			socket.on('printCall', function (data) {
+	            document.getElementById('call').innerHTML = data.randomNum;
+			});
+			socket.on('gameLeft', function (data) {
+	            document.getElementById('msg').innerHTML =  "<strong>You have won. Your opponent has left the game.</strong><br />";
+	            document.getElementById('call').innerHTML = "";
 			});
             enter.onclick = function(){
             	document.getElementById('userBox').className = "hide";
@@ -87,7 +103,7 @@
 
             	var numberElements = document.getElementById('gameCard').children;
 
-				var tempArray = [], i=0;
+				var tempArray = [];
 
 				for(var i=0; i < (numberElements.length)/2; i++){
 
@@ -110,7 +126,31 @@
             	var userName = document.getElementById('username').value;
 
             	socket.emit('click', userName);
-            }}
+            }
+            
+            document.getElementById('start').onclick = generateCall;
+
+            function generateCall(){
+            	
+            	if(numbersCalled.length < 15){
+
+            		var randomNum = Math.floor((Math.random()*15)+1);
+
+	            	if(numbersCalled.indexOf(randomNum) === -1){
+						socket.emit('sendCall', randomNum);
+						numbersCalled.push(randomNum);
+					}
+					else{
+						generateCall();
+					}
+            	}
+            	else{
+            		document.getElementById('msg').innerHTML =  "<strong>Game over.</strong><br />";
+            		document.getElementById('call').innerHTML = "";
+            		document.getElementById('start').disabled = true;
+            	}
+            }
+        }
     </script>
 
 </head>
@@ -135,8 +175,11 @@
     <li></li>
     <li></li>
     <li></li>
+    <input type="button" value="Start" id="start" disabled />
+    <div id="call"></div>
 </ul>
 <ul id="welcome"></ul>
 <ul id="allUsers"></ul>
+<ul id="msg"></ul>
 </body>
 </html>

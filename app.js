@@ -28,7 +28,13 @@ io.sockets.on('connection', function (socket) {
 	    socket.on('disconnect', function () {
 	        removeUser(user);
 	    });
+
     });
+
+    socket.on("sendCall", function(randomNum){
+    	io.sockets.emit('printCall', {randomNum: randomNum});
+    });
+    
 });
 
 var users = [];
@@ -46,6 +52,9 @@ var removeUser = function(user) {
         if(user.name === users[i].name) {
             users.splice(i, 1);
             updateUsers();
+            if(users.length === 1){
+    			io.sockets.emit("gameLeft");	
+    		}
             return;
         }
     }
@@ -56,5 +65,5 @@ var updateUsers = function() {
         var user = users[i];
         str += user.name + ' ';
     }
-    io.sockets.emit("users", { users: str });
+    io.sockets.emit("users", { users: str, onlineUsersNum: users.length});
 }
