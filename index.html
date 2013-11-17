@@ -63,7 +63,14 @@
             margin-left: 40px;
             font-size: 25px;
         }
-
+        #buttons{
+        	position: absolute;
+        	margin-top: 20%;
+        	margin-left: 21%;
+        }
+        #buttons input{
+        	display: inline-block;
+        }
     </style>
 
 
@@ -74,7 +81,9 @@
 
             var enter = document.getElementById('enter');
 
-            var numbersCalled = [];
+            var numbersCalled = [],
+            	selectedList = [],
+            	tempArray = [];
 
             socket.on('welcome', function (data) {
 	            console.log(data);
@@ -84,10 +93,12 @@
 				document.getElementById('allUsers').innerHTML = "<strong>Online users:</strong><br />" + data.users;
 				if(data.onlineUsersNum > 1){
 					document.getElementById('start').disabled =  false;
+					document.getElementById('submit').disabled = false;
 					document.getElementById('msg').innerHTML =  "<strong>You can now play the game.</strong><br />";
 				}
 				else{
 					document.getElementById('start').disabled = true;
+					document.getElementById('submit').disabled = true;
 				}
 			});
 			socket.on('printCall', function (data) {
@@ -100,10 +111,9 @@
             enter.onclick = function(){
             	document.getElementById('userBox').className = "hide";
             	document.getElementById('gameCard').className = "show";
+            	document.getElementById('buttons').className = "show";
 
             	var numberElements = document.getElementById('gameCard').children;
-
-				var tempArray = [];
 
 				for(var i=0; i < (numberElements.length)/2; i++){
 
@@ -115,13 +125,21 @@
 						elem.id = randomN;
 						elem.innerHTML = randomN;
 						if(element){
+							element.className = "numberedElement";
 							element.appendChild(elem);
 						}
 						tempArray.push(randomN);
 					}
 				}
 
-				tempArray = [];
+            	var numberedElem = document.getElementsByClassName('numberedElement');
+
+            	for(var i = 0; i  < numberedElem.length; i++){
+            		numberedElem[i].onclick = function(){
+	            		this.style.backgroundColor = "red";
+	            		selectedList.push(this.children[0].innerHTML);
+	            	}
+            	}
 
             	var userName = document.getElementById('username').value;
 
@@ -148,7 +166,33 @@
             		document.getElementById('msg').innerHTML =  "<strong>Game over.</strong><br />";
             		document.getElementById('call').innerHTML = "";
             		document.getElementById('start').disabled = true;
+            		document.getElementById('submit').disabled = true;
             	}
+            }
+            document.getElementById('submit').onclick = function(){
+            	numbersCalled.sort();
+            	selectedList.sort();
+            	var win = true;
+            	for(var i=0; i < selectedList.length; i++){
+            		if(numbersCalled.indexOf(selectedList[i] === -1)){
+            			win = false;
+            			break;
+            		}
+            	}
+            	if(!win && numbersCalled.length >= selectedList.length && selectedList.length === tempArray.length){
+            		document.getElementById('msg').innerHTML = "You have won.<br>Game Over.";
+            			
+            	}
+            	else{
+            		document.getElementById('msg').innerHTML = "Your selected list doesn't match with the numbers called.<br>Game Over.";
+            	}
+            	document.getElementById('start').disabled = true;
+            	document.getElementById('submit').disabled = true;
+            	document.getElementById('call').innerHTML = "";
+
+            	numbersCalled = [];
+            	selectedList = [];
+            	tempArray = [];
             }
         }
     </script>
@@ -175,11 +219,14 @@
     <li></li>
     <li></li>
     <li></li>
-    <input type="button" value="Start" id="start" disabled />
-    <div id="call"></div>
 </ul>
 <ul id="welcome"></ul>
 <ul id="allUsers"></ul>
 <ul id="msg"></ul>
+<ul id="buttons" class="hide">
+	<input type="button" value="Start" id="start" disabled />
+    <input type="button" value="Submit" id="submit" disabled />
+    <div id="call"></div>
+</ul>
 </body>
 </html>
