@@ -38,7 +38,9 @@ io.sockets.on('connection', function (socket) {
     socket.on("gameOver", function(userName, gameWin){
         io.sockets.emit('gameFinish', {userName: userName, gameWin: gameWin});
     });
-    
+    socket.on("finish", function(){
+        io.sockets.emit('gFinish');
+    });
 });
 
 var users = [];

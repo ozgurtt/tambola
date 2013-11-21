@@ -77,7 +77,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         window.onload = function() {
-            var socket = io.connect('http://192.168.0.105:3000');
+            var socket = io.connect();
 
             var enter = document.getElementById('enter');
 
@@ -133,6 +133,13 @@
                     document.getElementById('msg').innerHTML =  "<strong>"+data.userName+" called. It was a false call, proceed...</strong>";
                 }
             });
+            socket.on('gFinish', function (data) {
+                document.getElementById('msg').innerHTML = "All announcements are done. Game over";
+                document.getElementById('call').innerHTML = "";
+                document.getElementById('start').disabled = true;
+                document.getElementById('submit').disabled = true;
+            });
+
 
             enter.onclick = function(){
             	document.getElementById('userBox').className = "hide";
@@ -192,10 +199,7 @@
 					}
             	}
             	else{
-            		document.getElementById('msg').innerHTML =  "<strong>Game over.</strong><br />";
-            		document.getElementById('call').innerHTML = "";
-            		document.getElementById('start').disabled = true;
-            		document.getElementById('submit').disabled = true;
+                    socket.emit('finish');
             	}
             }
             document.getElementById('submit').onclick = function(){
