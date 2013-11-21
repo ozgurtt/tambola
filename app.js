@@ -31,8 +31,12 @@ io.sockets.on('connection', function (socket) {
 
     });
 
-    socket.on("sendCall", function(randomNum){
-    	io.sockets.emit('printCall', {randomNum: randomNum});
+    socket.on("sendCall", function(randomNum, numbersCalled){
+    	io.sockets.emit('printCall', {randomNum: randomNum, numbersCalled: numbersCalled});
+    });
+
+    socket.on("gameOver", function(userName, gameWin){
+        io.sockets.emit('gameFinish', {userName: userName, gameWin: gameWin});
     });
     
 });
