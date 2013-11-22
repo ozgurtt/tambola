@@ -8,21 +8,66 @@
 
     <style type="text/css">
 
+        body{
+            background-color: #2c3e50;
+        }
         #userBox{
-            border: 1px solid black;
+            /*border: 1px solid black;
+            width: 500px;
+            height: 300px;
+            margin-top: 10%;
+            margin-left: 25%;
+            position: absolute;*/
+            box-shadow: 0 0 30px;
+            border: 0px solid transparent;
             width: 500px;
             height: 300px;
             margin-top: 10%;
             margin-left: 25%;
             position: absolute;
+            border-radius: 714px / 180px;
+            /*animation: rotate 2s;
+            -webkit-animation: rotate 3s;*/
+            animation-delay: 0.4s;
+            /*-webkit-animation-delay: 0.4s;*/
+            animation-iteration-count: 2;
+            /*-webkit-animation-iteration-count: 2;*/
+            -webkit-animation-timing-function: ease-in;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-direction: alternate;
+            /*-webkit-animation-play-state: running;*/
         }
+        @keyframes rotate
+        {
+        from {transform: rotateZ(11deg);}
+        to {transform : rotateZ(-11deg)}
+        }
+
+        @-webkit-keyframes rotate
+        {
+        from {-webkit-transform: rotateZ(11deg);}
+        to {-webkit-transform: rotateZ(-11deg);}
+        }
+
+
         #username{
-            margin-top: 120px;
+            /*margin-top: 120px;
             margin-left: 100px;
             height: 21px;
             border: 1px solid black;
             font-size: 14px;
+            font-weight: bold;*/
+            margin-top: 120px;
+            margin-left: 100px;
+            height: 21px;
+            border: 0px solid transparent;
+            font-size: 14px;
             font-weight: bold;
+            border-radius: 5px;
+            padding-left: 8px;
+            /*-webkit-transform: none;
+            -webkit-transition: none;
+            -webkit-animation-play-state: paused;*/
         }
         #username:focus{
             box-shadow: 0 0 10px red;
