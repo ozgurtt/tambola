@@ -13,7 +13,7 @@ var io = require('socket.io').listen(app);
 var fs = require('fs');
 var $ = require("jquery");
 
-var port = 3000;
+var port = process.env.PORT || 5000;
  
 app.listen(port);
 
