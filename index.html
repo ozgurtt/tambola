@@ -2,10 +2,6 @@
 <html>
 <head>
     <title></title>
-     <link rel="stylesheet" type="text/css" href="hack.css"> 
-    <!--<script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="index.js"></script>-->
-
     <style type="text/css">
 
         body{
@@ -26,37 +22,9 @@
             margin-left: 25%;
             position: absolute;
             border-radius: 714px / 180px;
-            /*animation: rotate 2s;
-            -webkit-animation: rotate 3s;*/
-            animation-delay: 0.4s;
-            /*-webkit-animation-delay: 0.4s;*/
-            animation-iteration-count: 2;
-            /*-webkit-animation-iteration-count: 2;*/
-            -webkit-animation-timing-function: ease-in;
-            -webkit-animation-iteration-count: infinite;
-            -webkit-animation-direction: alternate;
-            /*-webkit-animation-play-state: running;*/
         }
-        @keyframes rotate
-        {
-        from {transform: rotateZ(11deg);}
-        to {transform : rotateZ(-11deg)}
-        }
-
-        @-webkit-keyframes rotate
-        {
-        from {-webkit-transform: rotateZ(11deg);}
-        to {-webkit-transform: rotateZ(-11deg);}
-        }
-
-
+        
         #username{
-            /*margin-top: 120px;
-            margin-left: 100px;
-            height: 21px;
-            border: 1px solid black;
-            font-size: 14px;
-            font-weight: bold;*/
             margin-top: 120px;
             margin-left: 100px;
             height: 21px;
@@ -65,9 +33,6 @@
             font-weight: bold;
             border-radius: 5px;
             padding-left: 8px;
-            /*-webkit-transform: none;
-            -webkit-transition: none;
-            -webkit-animation-play-state: paused;*/
         }
         #username:focus{
             box-shadow: 0 0 10px red;
@@ -85,10 +50,13 @@
         #gameCard{
             /*border: 1px solid black;*/
             width: 500px;
-            height: 150px;
+        /*    height: 150px;
             margin-top: 10%;
             margin-left: 25%;
+            position: absolute;*/
             position: absolute;
+            transform: translateX(340px) translateY(200px);
+            -webkit-transform: translateX(340px) translateY(200px);
         }
         li{
             list-style-type: none;
@@ -103,18 +71,36 @@
             opacity: 1;
         }
         span{
-            position: absolute;
-            margin-top: 10px;
-            margin-left: 40px;
+            color: #2C3E50;
             font-size: 25px;
+            font-weight: bolder;
+            margin-left: 40px;
+            margin-top: 10px;
+            position: absolute;
         }
-        #buttons{
+        /*#buttons{
         	position: absolute;
         	margin-top: 20%;
         	margin-left: 21%;
-        }
+        }*/
         #buttons input{
         	display: inline-block;
+        }
+        #call{
+            font-size: 32px;
+            padding-left: 40px;
+            padding-top: 22px;
+            color: #AAC9C8;
+        }
+        #msg{
+            color: #D35400;
+        }
+        #allUsers{
+            color: #F1C40F;
+        }
+        #welcome{
+            color: #477EFF;
+            font-size: 28px;
         }
     </style>
 
