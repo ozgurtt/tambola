@@ -102,10 +102,20 @@
             color: #477EFF;
             font-size: 28px;
         }
+        .loader{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            z-index: 9999;    
+            background: url('loading.gif');
+            margin-left: 40%;
+            margin-top: 20%;
+        }
     </style>
 
 
     <script src="/socket.io/socket.io.js"></script>
+    <script src="jquery.js"></script>
     <script type="text/javascript">
         window.onload = function() {
             var socket = io.connect();
@@ -173,44 +183,54 @@
 
 
             enter.onclick = function(){
-            	document.getElementById('userBox').className = "hide";
-            	document.getElementById('gameCard').className = "show";
-            	document.getElementById('buttons').className = "show";
 
-            	var numberElements = document.getElementById('gameCard').children;
+            	var userName = document.getElementById('username').value,
+                    img = document.getElementById('loaderImg');
 
-				for(var i=0; i < (numberElements.length)/2; i++){
+                
+                img.style.display = "block";
 
-					var randomN = Math.floor((Math.random()*15)+1);
+            	socket.emit('click', userName);
 
-					if(tempArray.indexOf(randomN) === -1){
-						var element = numberElements[randomN];
-						var elem = document.createElement("span");
-						elem.id = randomN;
-						elem.innerHTML = randomN;
-						if(element){
-							element.className = "numberedElement";
-							element.appendChild(elem);
+                var numberElements = document.getElementById('gameCard').children;
+
+                for(var i=0; i < (numberElements.length)/2; i++){
+
+                    var randomN = Math.floor((Math.random()*15)+1);
+
+                    if(tempArray.indexOf(randomN) === -1){
+                        var element = numberElements[randomN];
+                        var elem = document.createElement("span");
+                        elem.id = randomN;
+                        elem.innerHTML = randomN;
+                        if(element){
+                            element.className = "numberedElement";
+                            element.appendChild(elem);
                             tempArray.push(randomN);
-						}
-					}
-				}
+                        }
+                    }
+                }
 
-            	var numberedElem = document.getElementsByClassName('numberedElement');
+                var numberedElem = document.getElementsByClassName('numberedElement');
 
-            	for(var i = 0; i  < numberedElem.length; i++){
-            		numberedElem[i].onclick = function(){
+                for(var i = 0; i  < numberedElem.length; i++){
+                    numberedElem[i].onclick = function(){
                         if(document.getElementById('start').disabled === true){
                             return false;
                         }
-	            		this.style.backgroundColor = "red";
-	            		selectedList.push(parseInt(this.children[0].innerHTML, 10));
-	            	}
-            	}
+                        this.style.backgroundColor = "red";
+                        selectedList.push(parseInt(this.children[0].innerHTML, 10));
+                    }
+                }
 
-            	var userName = document.getElementById('username').value;
 
-            	socket.emit('click', userName);
+
+                document.getElementById('userBox').className = "hide";
+                document.getElementById('gameCard').className = "show";
+                document.getElementById('buttons').className = "show";
+
+                img.style.display = "none";
+
             }
             
             document.getElementById('start').onclick = generateCall;
@@ -261,6 +281,9 @@
 <ul id="userBox">
     <input type="text" id="username" placeholder="Enter your name : "/>
     <input type="button" id="enter" value="Enter" />
+</ul>
+<ul>
+    <li class="loader" id="loaderImg" style="display:none"></li>
 </ul>
 <ul id="gameCard" class="hide">
     <li></li>

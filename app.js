@@ -1,19 +1,31 @@
 var handler = function(req, res) {
-    fs.readFile('./index.html', function (err, data) {
-        if(err){
-        	throw err;
-        }
-        res.writeHead(200);
-        res.end(data);
-    });
+
+    var request = url.parse(req.url, true);
+    var action = request.pathname;
+     
+    if (action == '/loading.gif') {
+        var img = fs.readFileSync('./loading.gif');
+        res.writeHead(200, {'Content-Type': 'image/gif' });
+        res.end(img, 'binary');
+    }
+    else { 
+        fs.readFile('./index.html', function (err, data) {
+            if(err){
+                throw err;
+            }
+            res.writeHead(200);
+            res.end(data);
+        });    
+    }
 }
 
 var app = require('http').createServer(handler);
 var io = require('socket.io').listen(app);
 var fs = require('fs');
-var $ = require("jquery");
+var $ = require("jquery").create();
+var url = require('url');
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 3000;
  
 app.listen(port);
 
