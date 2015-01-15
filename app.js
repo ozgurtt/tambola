@@ -22,7 +22,6 @@ var handler = function(req, res) {
 var app = require('http').createServer(handler);
 var io = require('socket.io').listen(app);
 var fs = require('fs');
-var $ = require("jquery").create();
 var url = require('url');
 
 var port = process.env.PORT || 3000;
